@@ -13,8 +13,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Colors.grey,
         body: Center(
-          child: CircleCustomPain(),
+          child: CircleCustomPain(
+            durationInSeconds: 1,
+          ),
         ),
       ),
     );
