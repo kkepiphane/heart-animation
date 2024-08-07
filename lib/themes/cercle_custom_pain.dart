@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:animeheart/components/animation.dart';
 import 'package:flutter/material.dart';
 
@@ -15,14 +14,28 @@ class _CircleCustomPainState extends State<CircleCustomPain>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   int _direction = -1;
+  double _currentAngle = 0.0; // Angle initial de l'aiguille
+  Color _needleColor = Colors.blue; // Couleur initiale de l'aiguille
+  bool _isAnimating = true;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: Duration(seconds: widget.durationInSeconds ~/ 4),
+      duration: Duration(microseconds: widget.durationInSeconds),
       vsync: this,
     )..repeat();
+
+    _controller.addListener(() {
+      setState(() {
+        _currentAngle += _direction * (2 * pi / (widget.durationInSeconds * 2));
+        if (_currentAngle >= 2 * pi) {
+          _currentAngle -= 2 * pi;
+        } else if (_currentAngle <= -2 * pi) {
+          _currentAngle += 2 * pi;
+        }
+      });
+    });
   }
 
   @override
@@ -34,20 +47,26 @@ class _CircleCustomPainState extends State<CircleCustomPain>
   void _pressleft() {
     setState(() {
       _direction = 1;
+      _needleColor = Colors.red;
     });
   }
 
   void _stopanime() {
-    if (_controller.isAnimating) {
-      _controller.stop();
-    } else {
-      _controller.repeat();
-    }
+    setState(() {
+      if (_controller.isAnimating) {
+        _controller.stop();
+        _isAnimating = false;
+      } else {
+        _controller.repeat();
+        _isAnimating = true;
+      }
+    });
   }
 
   void _pressrigth() {
     setState(() {
       _direction = -1;
+      _needleColor = Colors.blue;
     });
   }
 
@@ -65,9 +84,12 @@ class _CircleCustomPainState extends State<CircleCustomPain>
                   return CustomPaint(
                     size: const Size(100, 100), // Taille du canevas
                     painter:
-                        CircleWithNeedlePainter(_controller.value, _direction),
+                        CircleWithNeedlePainter(_currentAngle, _needleColor),
                     child: Center(
-                      child: HeartAnimation(durationInSeconds: 20),
+                      child: HeartAnimation(
+                        durationInSeconds: widget.durationInSeconds,
+                        isAnimating: _isAnimating,
+                      ),
                     ),
                   );
                 },
@@ -110,31 +132,25 @@ class _CircleCustomPainState extends State<CircleCustomPain>
 }
 
 class CircleWithNeedlePainter extends CustomPainter {
-  final double progress;
-  final int direction;
+  final double currentAngle;
+  final Color needleColor;
 
-  CircleWithNeedlePainter(this.progress, this.direction);
+  CircleWithNeedlePainter(this.currentAngle, this.needleColor);
 
   @override
   void paint(Canvas canvas, Size size) {
     Paint circlePaint = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 20; // Épaisseur du cercle
+      ..strokeWidth = 20;
 
     // Épaisseur de l'aiguille
     Paint needlePaint = Paint()
-      ..color = direction == 1 ? Colors.red : Colors.blue
+      ..color = needleColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 20;
 
-    double startAngle;
-    if (direction == 1) {
-      // Début de l'aiguille (en haut) avec l'angle en fonction du progrès
-      startAngle = -pi / 2 + 2 * pi * progress;
-    } else {
-      startAngle = -pi / 2 - 2 * pi * progress;
-    }
+    double startAngle = currentAngle;
 
     // Longueur de l'aiguille (par exemple, 12 degrés)
     double sweepAngle = pi / 30;
@@ -158,6 +174,7 @@ class CircleWithNeedlePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(CircleWithNeedlePainter oldDelegate) {
-    return oldDelegate.progress != progress;
+    return oldDelegate.currentAngle != currentAngle ||
+        oldDelegate.needleColor != needleColor;
   }
 }

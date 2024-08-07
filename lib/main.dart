@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         backgroundColor: Colors.grey,
         body: Center(
           child: CircleCustomPain(
-            durationInSeconds: 19,
+            durationInSeconds: 120,
           ),
         ),
       ),
