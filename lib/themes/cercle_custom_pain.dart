@@ -20,9 +20,9 @@ class _CircleCustomPainState extends State<CircleCustomPain>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: Duration(seconds: widget.durationInSeconds),
+      duration: Duration(seconds: widget.durationInSeconds ~/ 4),
       vsync: this,
-    )..repeat(); // Répéter l'animation indéfiniment
+    )..repeat();
   }
 
   @override
@@ -38,8 +38,11 @@ class _CircleCustomPainState extends State<CircleCustomPain>
   }
 
   void _stopanime() {
-    // Arrêter l'animation
-    _controller.stop();
+    if (_controller.isAnimating) {
+      _controller.stop();
+    } else {
+      _controller.repeat();
+    }
   }
 
   void _pressrigth() {
@@ -63,8 +66,8 @@ class _CircleCustomPainState extends State<CircleCustomPain>
                     size: const Size(100, 100), // Taille du canevas
                     painter:
                         CircleWithNeedlePainter(_controller.value, _direction),
-                    child: const Center(
-                      child: HeartAnimation(),
+                    child: Center(
+                      child: HeartAnimation(durationInSeconds: 20),
                     ),
                   );
                 },
@@ -78,19 +81,21 @@ class _CircleCustomPainState extends State<CircleCustomPain>
                   children: [
                     FloatingActionButton(
                       onPressed: _pressleft,
-                      tooltip: 'Increment',
+                      tooltip: 'aller à gauche',
                       child: Icon(Icons.arrow_left),
                     ),
                     const SizedBox(width: 30),
                     FloatingActionButton(
                       onPressed: _stopanime,
-                      tooltip: 'Increment',
-                      child: Icon(Icons.stop),
+                      tooltip: 'Mettre pause et rejouer',
+                      child: Icon(_controller.isAnimating
+                          ? Icons.stop
+                          : Icons.play_arrow),
                     ),
                     const SizedBox(width: 30),
                     FloatingActionButton(
                       onPressed: _pressrigth,
-                      tooltip: 'Increment',
+                      tooltip: 'Aller à droit',
                       child: const Icon(Icons.arrow_right_alt),
                     ),
                   ],

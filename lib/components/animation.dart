@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class HeartAnimation extends StatefulWidget {
-  const HeartAnimation({super.key});
+  final int durationInSeconds;
+  HeartAnimation({required this.durationInSeconds});
 
   @override
   _HeartAnimationState createState() => _HeartAnimationState();
@@ -16,7 +17,7 @@ class _HeartAnimationState extends State<HeartAnimation>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 1),
+      duration: Duration(seconds: widget.durationInSeconds ~/ 4),
       vsync: this,
     )..repeat(reverse: true);
 
