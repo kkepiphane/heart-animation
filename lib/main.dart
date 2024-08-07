@@ -13,7 +13,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  double ratings = 1; // Définir ratings comme une variable double
+  int ratings = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
             Positioned.fill(
               child: CircleCustomPain(
                 durationInSeconds:
-                    100 - ratings.toInt(), // Convertir en int si nécessaire
+                    100 - ratings, // Convertir en int si nécessaire
               ),
             ),
             Positioned(
@@ -35,15 +35,18 @@ class _MyAppState extends State<MyApp> {
               left: 0,
               right: 0,
               child: Slider(
-                value: ratings,
-                onChanged: (newRating) {
-                  setState(() => ratings = newRating);
-                },
-                min: 1,
-                max: 100,
-                divisions: 99, // Optionnel : pour avoir des valeurs entières
-                label: "$ratings",
-              ),
+                  value: ratings
+                      .toDouble(), // Convertir int en double pour le Slider
+                  onChanged: (newRating) {
+                    setState(() =>
+                        ratings = newRating.toInt()); // Convertir double en int
+                  },
+                  min: 1,
+                  max: 100,
+                  divisions: 99, // Optionnel : pour avoir des valeurs entières
+                  label: "$ratings",
+                  thumbColor: Colors.green[600],
+                  activeColor: Colors.green[400]),
             ),
           ],
         ),
