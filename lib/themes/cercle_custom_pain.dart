@@ -104,7 +104,7 @@ class _CircleCustomPainState extends State<CircleCustomPain>
                     FloatingActionButton(
                       onPressed: _pressleft,
                       tooltip: 'aller à gauche',
-                      child: Icon(Icons.arrow_left),
+                      child: const Icon(Icons.reply),
                     ),
                     const SizedBox(width: 30),
                     FloatingActionButton(
@@ -118,7 +118,12 @@ class _CircleCustomPainState extends State<CircleCustomPain>
                     FloatingActionButton(
                       onPressed: _pressrigth,
                       tooltip: 'Aller à droit',
-                      child: const Icon(Icons.arrow_right_alt),
+                      child: Transform(
+                        alignment: Alignment.center,
+                        transform: Matrix4.rotationY(
+                            pi), // Rotation de 180 degrés sur l'axe Y
+                        child: Icon(Icons.reply),
+                      ),
                     ),
                   ],
                 ),

@@ -20,7 +20,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.black12,
         body: Stack(
           children: [
             // Positionner CircleCustomPain pour occuper tout l'espace
@@ -42,11 +42,11 @@ class _MyAppState extends State<MyApp> {
                         ratings = newRating.toInt()); // Convertir double en int
                   },
                   min: 1,
-                  max: 100,
+                  max: 99,
                   divisions: 99, // Optionnel : pour avoir des valeurs entières
                   label: "$ratings",
-                  thumbColor: Colors.green[600],
-                  activeColor: Colors.green[400]),
+                  thumbColor: Colors.blue[600],
+                  activeColor: Colors.blue[400]),
             ),
           ],
         ),
