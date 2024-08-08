@@ -45,8 +45,8 @@ class _MyAppState extends State<MyApp> {
                   max: 99,
                   divisions: 99, // Optionnel : pour avoir des valeurs entières
                   label: "$ratings",
-                  thumbColor: Colors.blue[600],
-                  activeColor: Colors.blue[400]),
+                  thumbColor: Colors.green[600],
+                  activeColor: Colors.green[400]),
             ),
           ],
         ),

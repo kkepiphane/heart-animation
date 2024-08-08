@@ -18,9 +18,9 @@ class CircleCustomPain extends StatefulWidget {
 class _CircleCustomPainState extends State<CircleCustomPain>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  int _direction = -1;
+  int _direction = 1;
   double _currentAngle = 0.0; // Angle initial de l'aiguille
-  Color _needleColor = Colors.blue; // Couleur initiale de l'aiguille
+  Color _needleColor = Colors.red; // Couleur initiale de l'aiguille
   bool _isAnimating = true;
 
   @override
@@ -92,9 +92,9 @@ class _CircleCustomPainState extends State<CircleCustomPain>
                         CircleWithNeedlePainter(_currentAngle, _needleColor),
                     child: Center(
                       child: HeartAnimation(
-                        durationInSeconds: widget.durationInSeconds,
-                        isAnimating: _isAnimating,
-                      ),
+                          durationInSeconds: widget.durationInSeconds,
+                          isAnimating: _isAnimating,
+                          direction: _direction),
                     ),
                   );
                 },
