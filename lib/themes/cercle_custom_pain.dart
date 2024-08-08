@@ -4,7 +4,7 @@
 */
 
 import 'dart:math';
-import 'package:animeheart/components/animation.dart';
+import 'package:animeheart/components/animation_heart.dart';
 import 'package:flutter/material.dart';
 
 class CircleCustomPain extends StatefulWidget {
