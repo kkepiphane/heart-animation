@@ -26,7 +26,7 @@ class _CircleCustomPainState extends State<CircleCustomPain>
   Color _needleColor = Colors.red;
   bool _isAnimating = true;
 
-  //sliver
+  //sliver init
   int ratings = 1;
 
   @override
