@@ -8,8 +8,7 @@ import 'package:animeheart/components/animation.dart';
 import 'package:flutter/material.dart';
 
 class CircleCustomPain extends StatefulWidget {
-  final int durationInSeconds;
-  CircleCustomPain({required this.durationInSeconds});
+  const CircleCustomPain({super.key});
 
   @override
   _CircleCustomPainState createState() => _CircleCustomPainState();
@@ -18,22 +17,29 @@ class CircleCustomPain extends StatefulWidget {
 class _CircleCustomPainState extends State<CircleCustomPain>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  //initialisation sens direction
   int _direction = 1;
-  double _currentAngle = 0.0; // Angle initial de l'aiguille
-  Color _needleColor = Colors.red; // Couleur initiale de l'aiguille
+
+  // Angle initial de l'aiguille
+  double _currentAngle = 0.0;
+  // Couleur initiale de l'aiguille
+  Color _needleColor = Colors.red;
   bool _isAnimating = true;
+
+  //sliver
+  int ratings = 1;
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: Duration(microseconds: widget.durationInSeconds),
+      duration: Duration(microseconds: 100 - ratings),
       vsync: this,
     )..repeat();
 
     _controller.addListener(() {
       setState(() {
-        _currentAngle += _direction * (2 * pi / (widget.durationInSeconds * 2));
+        _currentAngle += _direction * (2 * pi / ((100 - ratings) * 2));
         if (_currentAngle >= 2 * pi) {
           _currentAngle -= 2 * pi;
         } else if (_currentAngle <= -2 * pi) {
@@ -83,6 +89,7 @@ class _CircleCustomPainState extends State<CircleCustomPain>
           child: Stack(
             alignment: Alignment.center,
             children: [
+              //animation pour battement de cœur et grand circle pour circules l'aiguille
               AnimatedBuilder(
                 animation: _controller,
                 builder: (context, child) {
@@ -92,13 +99,34 @@ class _CircleCustomPainState extends State<CircleCustomPain>
                         CircleWithNeedlePainter(_currentAngle, _needleColor),
                     child: Center(
                       child: HeartAnimation(
-                          durationInSeconds: widget.durationInSeconds,
+                          durationInSeconds: (100 - ratings),
                           isAnimating: _isAnimating,
                           direction: _direction),
                     ),
                   );
                 },
               ),
+              //Slider rangepour changer la vitesse de battement de cœur
+              Positioned(
+                top: 90,
+                left: 0,
+                right: 0,
+                child: Slider(
+                    value: ratings.toDouble(),
+                    onChanged: (newRating) {
+                      setState(() => ratings = newRating.toInt());
+                    },
+                    min: 1,
+                    max: 99,
+                    divisions: 99,
+                    label: "$ratings",
+                    thumbColor:
+                        _direction == 1 ? Colors.red[600] : Colors.blue[600],
+                    activeColor:
+                        _direction == 1 ? Colors.red[400] : Colors.blue[400]),
+              ),
+
+              //Les buttons pour aller à gauche, à droit et pour stoper le cœur
               Positioned(
                 bottom: 60,
                 left: 0,
@@ -125,9 +153,9 @@ class _CircleCustomPainState extends State<CircleCustomPain>
                       tooltip: 'Aller à droit',
                       child: Transform(
                         alignment: Alignment.center,
-                        transform: Matrix4.rotationY(
-                            pi), // Rotation de 180 degrés sur l'axe Y
-                        child: Icon(Icons.reply),
+                        // Rotation de 180 degrés sur l'axe Y
+                        transform: Matrix4.rotationY(pi),
+                        child: const Icon(Icons.reply),
                       ),
                     ),
                   ],

@@ -5,7 +5,8 @@ class HeartAnimation extends StatefulWidget {
   final bool isAnimating;
   final int direction;
 
-  HeartAnimation({
+  const HeartAnimation({
+    super.key,
     required this.durationInSeconds,
     required this.isAnimating,
     required this.direction,
