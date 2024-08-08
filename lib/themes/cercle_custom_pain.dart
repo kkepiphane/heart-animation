@@ -1,3 +1,8 @@
+/*
+  Animation with Custom Paint
+  Created by Epiphane KOUTSAVA
+*/
+
 import 'dart:math';
 import 'package:animeheart/components/animation.dart';
 import 'package:flutter/material.dart';

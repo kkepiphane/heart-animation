@@ -58,7 +58,7 @@ class _HeartAnimationState extends State<HeartAnimation>
         Icons.favorite,
         color: Colors.red,
         size: 110.0,
-        semanticLabel: 'Text to announce in accessibility modes',
+        semanticLabel: 'Heartbeat',
       ),
     );
   }
